@@ -1,0 +1,25 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center; /* Center content vertically */
+  align-items: center;    /* Center content horizontally */
+  background: #f8f9fa;    /* Optional: Add a background color */
+}
+
+.layout-content {
+  width: 100%;
+  max-width: 800px;        /* Set a max width for the content */
+  padding: 20px;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;      /* Add rounded corners */
+  text-align: center;      /* Center text within the content */
+  min-height: 700px;
+}
+
+.layout-footer {
+  margin-top: 20px;        /* Add some spacing from the content */
+  text-align: center;
+  color: gray;
+}

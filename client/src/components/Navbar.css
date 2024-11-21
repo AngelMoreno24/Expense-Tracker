@@ -1,0 +1,45 @@
+.navbar {
+    display: flex;              /* Use Flexbox for layout */
+    justify-content: space-between; /* Space between logo and links */
+    align-items: center;        /* Vertically align items */
+    padding: 10px 10px;
+    background-color: #007bff;  /* Navbar background color */
+    color: white;
+    border: 10px solid transparent; /* Border for hover effect */
+    border-radius: 5px;         /* Rounded edges for buttons */
+  }
+  
+  .navbar-logo {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .navbar-links {
+    display: flex;              /* Use Flexbox to arrange links horizontally */
+    list-style: none;           /* Remove bullet points */
+    margin: 0;
+    padding: 0;
+    gap: 20px;                  /* Add a gap between buttons */
+  }
+  
+  .navbar-link {
+    color: white;               /* Link text color */
+    text-decoration: none;      /* Remove underline */
+    padding: 10px 15px;         /* Add padding to make the buttons clickable */
+    font-size: 16px;
+    background-color: transparent; /* Transparent background */
+    border: 2px solid transparent; /* Border for hover effect */
+    border-radius: 5px;         /* Rounded edges for buttons */
+    transition: all 0.3s ease;  /* Smooth transition for hover effects */
+  }
+  
+  .navbar-link:hover {
+    background-color: white;    /* Change background on hover */
+    color: #007bff;             /* Change text color on hover */
+    border-color: white;        /* Add border on hover */
+  }
+  
+  .navbar-link.active {
+    background-color: #0056b3;  /* Highlight active link */
+    color: white;               /* Keep text white */
+  }
