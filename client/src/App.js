@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import Layout from "./components/Layout";
+import LoginLayout from "./components/LoginLayout";
 import Home from "./pages/Home";
 import "./App.css"
 
@@ -16,12 +17,12 @@ function App() {
       <BrowserRouter>
       <Routes >
 
-        <Route path="/" element={<Layout />}>
+        <Route path="/Home" element={<Layout />}>
           <Route index element={<Home />} />
         </Route>
 
-        <Route>
-          <Route path="/login" element={<Login/>}></Route>
+        <Route path="/" element={<LoginLayout />}>
+          <Route index element={<Login/>}></Route>
        </Route>
 
       </Routes>
