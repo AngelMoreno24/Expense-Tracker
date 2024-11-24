@@ -1,14 +1,30 @@
 
 .grid-container {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
-    width: 600px;
+    grid-template-columns: 300px 450px 400px;
   }
   .grid-item {
-    background-color: rgba(255, 255, 255, 0.8);
-    
-  width: 100%;
-  height: auto; /* Adjust based on your chart type */
+    background-color: #1f1f1f;
+    min-width: 200px;
+    width: 100%;
+    height: auto; /* Adjust based on your chart type */
     font-size: 30px;
     text-align: center;
   }
+.center{
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+label{
+  
+  color: white;
+}
+.date-container{
+
+  display: grid;
+  grid-template-rows: 30px 30px;
+}

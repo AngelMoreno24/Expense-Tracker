@@ -4,13 +4,13 @@
   min-height: 100vh;
   justify-content: center; /* Center content vertically */
   align-items: center;    /* Center content horizontally */
-  background: #F2F0EF;    /* Optional: Add a background color */
+  background: #353535;    /* Optional: Add a background color */
 }
 
 .layout-content {
   width:  90%;        /* Set a max width for the content */
   padding: 20px;
-  background: #F2F0EF;
+  background: #1f1f1f;
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
   border-radius: 8px;      /* Add rounded corners */
   text-align: center;      /* Center text within the content */

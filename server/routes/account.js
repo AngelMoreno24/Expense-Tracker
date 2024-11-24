@@ -46,6 +46,27 @@ router.get('/', async (request, response) => {
 });
 
 
+// Route to get account info
+router.post('/login', async (request, response) => {
+  try {
+
+    const { email } = request.body; // Extract account ID from the request body
+    const { password } = request.body; // Extract account ID from the request body
+
+
+    const accounts = await Account.find({});
+
+    //const expenses = await Expense.find({ account });
+    return response.status(200).json({
+      count: accounts.length,
+      data: accounts,
+    });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
+
 
 
 export default router;
