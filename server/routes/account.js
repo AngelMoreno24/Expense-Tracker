@@ -8,6 +8,9 @@ const router = express.Router();
 // Route to Add a new account
 router.post('/', async (request, response) => {
   try {
+
+    const { email, password, username } = request.body; // Extract account ID from the request body
+
     if (
       !request.body.username ||
       !request.body.email ||
@@ -17,10 +20,22 @@ router.post('/', async (request, response) => {
         message: 'Send all required fields: username, email, password',
       });
     }
+    
+
+    const accountAvailable = await Account.findOne({email});
+    if(accountAvailable){
+      request.status(400);
+        throw new Error("email already registered");
+    }
+
+    //Hash password
+    const hashedPassword = await bcrypt.hash(password,10)
+    console.log("Hashed password", hashedPassword)
+
     const newAccount = {
-        username: request.body.username,
-        email: request.body.email,
-        password: request.body.password,
+        username,
+        email,
+        password: hashedPassword,
     };
 
     const account = await Account.create(newAccount);
@@ -69,15 +84,11 @@ router.post('/login', async (req, res) => {
       {expiresIn: "5m"}
 
     );
-        res.status(200).json({ accessToken})
+      return res.status(200).json({ accessToken });
     }else{
         res.status(401);
         throw new Error("Invalid email or password");
     }
-    res.json({ message: "Login user"});
-
-    return {accessToken};
-
 
   } catch (error) {
     console.error(error.message);

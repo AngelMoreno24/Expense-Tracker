@@ -4,6 +4,9 @@ import { PORT, mongoDBURL } from "./config.js";
 import mongoose from 'mongoose'
 import accountRoute from './routes/account.js';
 import expensesRoute from './routes/expense.js';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express()
 
