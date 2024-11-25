@@ -4,8 +4,8 @@ import { Account } from '../models/accountModel.js';
 
 const router = express.Router();
 
-// Route to Add a new account
-router.post('/', async (request, response) => {
+// Route to Add a new expense
+export const addExpense = async (request, response) => {
   try {
     if (
         !request.body.amount ||
@@ -35,10 +35,10 @@ router.post('/', async (request, response) => {
     console.log(error.message);
     response.status(500).send({ message: error.message });
   }
-});
+};
 
-// Route to get account info
-router.get('/', async (request, response) => {
+// Route to get expense info
+export const getAllExpenses = async (request, response) => {
   try {
     const expenses = await Expense.find({});
 
@@ -50,18 +50,18 @@ router.get('/', async (request, response) => {
     console.log(error.message);
     response.status(500).send({ message: error.message });
   }
-});
+};
 
 
-// Route to get account info
-router.post('/account', async (request, response) => {
+// Route to get expense info
+export const getExpense =  async (request, response) => {
   try {
     const { account } = request.body; // Extract account ID from the request body
 
     if (!account) {
       return response.status(400).send({ message: "Account ID is required." });
     }
-    console.log(account);
+    //console.log(account);
     // Query all expenses for the provided account ID
     const expenses = await Expense.find({ account });
 
@@ -70,7 +70,7 @@ router.post('/account', async (request, response) => {
     console.error(error.message);
     return response.status(500).send({ message: error.message });
   }
-  });
+  };
   
   
   
