@@ -49,24 +49,24 @@ router.get('/', async (request, response) => {
 // Route to get account info
 router.post('/login', async (request, response) => {
   try {
+    const { email, password } = request.body; // Extract account ID from the request body
 
-    const { email } = request.body; // Extract account ID from the request body
-    const { password } = request.body; // Extract account ID from the request body
+    // Query all expenses for the provided account ID
+    const account = await Account.findOne({ email });
 
+    console.log(account.email);
 
-    const accounts = await Account.find({});
+    if(account.password == password){
 
-    //const expenses = await Expense.find({ account });
-    return response.status(200).json({
-      count: accounts.length,
-      data: accounts,
-    });
+      return "Successfull Login";
+    }
+    return "Failed login";
+    
+    return response.status(200).json(account);
   } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
+    console.error(error.message);
+    return response.status(500).send({ message: error.message });
   }
 });
-
-
 
 export default router;
