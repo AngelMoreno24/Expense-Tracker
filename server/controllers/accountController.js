@@ -81,7 +81,6 @@ export const loginAccount = async (req, res) => {
               id: account.id
           }
       }, process.env.ACCESS_TOKEN_SECRET,
-      {expiresIn: "5m"}
 
     );
       return res.status(200).json({ accessToken });
