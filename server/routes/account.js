@@ -1,5 +1,7 @@
 import express from 'express';
 import { Account } from '../models/accountModel.js';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 const router = express.Router();
 
@@ -47,26 +49,42 @@ router.get('/', async (request, response) => {
 
 
 // Route to get account info
-router.post('/login', async (request, response) => {
+router.post('/login', async (req, res) => {
   try {
-    const { email, password } = request.body; // Extract account ID from the request body
+    const { email, password } = req.body; // Extract account ID from the request body
 
     // Query all expenses for the provided account ID
     const account = await Account.findOne({ email });
 
-    console.log(account.email);
 
-    if(account.password == password){
+    //compare password with hashed password
+    if(account && (await bcrypt.compare(password, account.password))){
+      const accessToken = jwt.sign({
+          account: {
+              username: account.username,
+              email: account.email,
+              id: account.id
+          }
+      }, process.env.ACCESS_TOKEN_SECRET,
+      {expiresIn: "5m"}
 
-      return "Successfull Login";
+    );
+        res.status(200).json({ accessToken})
+    }else{
+        res.status(401);
+        throw new Error("Invalid email or password");
     }
-    return "Failed login";
-    
-    return response.status(200).json(account);
+    res.json({ message: "Login user"});
+
+    return {accessToken};
+
+
   } catch (error) {
     console.error(error.message);
-    return response.status(500).send({ message: error.message });
+    return res.status(500).send({ message: error.message });
   }
+
+
 });
 
 export default router;
