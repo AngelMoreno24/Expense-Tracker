@@ -1,79 +1,12 @@
 import express from 'express';
-import { Expense } from '../models/expenseModel.js';
-import { Account } from '../models/accountModel.js';
-
+import { addExpense, getExpense, getMonthlyExpenses } from "../controllers/expenseController.js";
+import { verifyToken} from "../middleware/validateToken.js"
 const router = express.Router();
 
-// Route to Add a new account
-router.post('/', async (request, response) => {
-  try {
-    if (
-        !request.body.amount ||
-        !request.body.description ||
-        !request.body.category ||
-        !request.body.account ||
-        !request.body.description 
-      
-    ) {
-      return response.status(400).send({
-        message: 'Send all required fields: username, email, password',
-      });
-    }
-    const newExpense = {
-        amount: request.body.amount,
-        description: request.body.description,
-        category: request.body.category,
-        date: request.body.date,
-        account: request.body.account,
-        description: request.body.description,
-    };
+router.post("/add", verifyToken, addExpense);
 
-    const expense = await Expense.create(newExpense);
+router.get("/getExpense", verifyToken, getExpense);
 
-    return response.status(201).send(expense);
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-// Route to get account info
-router.get('/', async (request, response) => {
-  try {
-    const expenses = await Expense.find({});
-
-    return response.status(200).json({
-      count: expenses.length,
-      data: expenses,
-    });
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-
-// Route to get account info
-router.post('/account', async (request, response) => {
-  try {
-    const { account } = request.body; // Extract account ID from the request body
-
-    if (!account) {
-      return response.status(400).send({ message: "Account ID is required." });
-    }
-    console.log(account);
-    // Query all expenses for the provided account ID
-    const expenses = await Expense.find({ account });
-
-    return response.status(200).json(expenses);
-  } catch (error) {
-    console.error(error.message);
-    return response.status(500).send({ message: error.message });
-  }
-  });
-  
-  
-  
-
+router.get("/getMonthlyExpenses", getMonthlyExpenses);
 
 export default router;

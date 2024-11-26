@@ -1,7 +1,7 @@
-import jsonwebtoken from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 
 
-export const verifyToken = async (req, res ) => {
+export const verifyToken = async (req, res, next ) => {
 
     let token;
     let authHeader = req.headers.Authorization || req.headers.authorization;
