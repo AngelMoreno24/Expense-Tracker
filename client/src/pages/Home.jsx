@@ -9,8 +9,8 @@ const Home = () => {
 
 
   const [error, setError] = useState('');
-  const [year, setYear] = useState('');
-  const [month, setMonth] = useState('');
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("");
   const [token, setToken] = useState(null);
   const [pieChartData, setPieChartData] = useState('');
 
@@ -78,8 +78,8 @@ const Home = () => {
       // Data to send
       const data = {
         account: "6744329ab290af96de65e837",
-        year: "2024",
-        month: "11",
+        year: year,
+        month: month,
       };
   
       // Use query parameters for GET
@@ -91,8 +91,17 @@ const Home = () => {
       });
   
       console.log(response.data);
-      setPieChartData(response.data);
-  
+      //setPieChartData(response.data);
+      let dataP = [
+        ["Task", "Hours per Day"]];
+      response.data.map((item)=>{
+
+        dataP.push([item._id, item.totalAmount]);
+      });
+
+      setPieChartData(dataP);
+      console.log(dataP);
+
       setError("");
     } catch (err) {
       if (err.response && err.response.status === 401) {
@@ -105,7 +114,15 @@ const Home = () => {
   };
 
 
+  const handleChangeYear = (event) => {
+    setYear(event.target.value); // Get the selected value
+    console.log(event.target.value);
+  };
 
+  const handleChangeMonth = (event) => {
+    setMonth(event.target.value); // Get the selected value
+    console.log(event.target.value);
+  };
 
   
   return (
@@ -116,7 +133,7 @@ const Home = () => {
             
           <label htmlFor="year" className="date-Item">year</label>
 
-          <select name="cars" id="cars" className="date-Item" >
+          <select name="cars" id="cars" className="date-Item" value={year} onChange={handleChangeYear} >
             <option value="2024">2024</option>
             <option value="2023">2023</option>
             <option value="2022">2022</option>
@@ -129,7 +146,7 @@ const Home = () => {
         <div className="date-container2">
           <label htmlFor="month" className="date-Item">month</label>
 
-          <select name="cars" id="cars" className="date-Item" >
+          <select name="cars" id="cars" className="date-Item" value={month} onChange={handleChangeMonth} >
             <option value="1">Jan</option>
             <option value="2">Feb</option>
             <option value="3">Mar</option>
@@ -144,7 +161,9 @@ const Home = () => {
             <option value="12">Dec</option>
           </select>
           
+        <button onClick={handleChange}>find</button>
         </div>
+        
       </div>
 
       <div className="grid-container">
@@ -202,7 +221,6 @@ const Home = () => {
 
       
     
-        <button onClick={handleChange}>sad</button>
 
 
     </div>
