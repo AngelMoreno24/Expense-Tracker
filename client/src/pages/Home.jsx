@@ -1,34 +1,37 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react'
 import { Chart } from "react-google-charts";
+import axios from 'axios';
 import "./Home.css"
+import {pieChartOptions, columnChartOptions, barChartoptions, data} from "../chartOptions/chart"
 
 
 const Home = () => {
 
 
+  const [error, setError] = useState('');
+  const [year, setYear] = useState('');
+  const [month, setMonth] = useState('');
+  const [token, setToken] = useState(null);
+  const [pieChartData, setPieChartData] = useState('');
 
 
-  const pieChartData = [
-    ["Task", "Hours per Day"],
-    ["Work", 9 ],
-    ["Eat", 2],
-    ["Commute", 2],
-    ["Watch TV", 2],
-    ["Sleep", 7],
-  ];
 
-  const pieChartOptions = {
-    legend: "none", // This removes the legend
-    title: "My Daily Activities",
-    backgroundColor: '#1f1f1f',
-    titleTextStyle: { color: 'white' },
-    legendTextStyle: { color: 'white' },
-
-    colors: ["#003f5c", "#58508d", "#bc5090", "#ff6361", "#ffa600"], // Custom colors
-
-    pieSliceBorderColor: "#000000", // Border color (black in this case)
+  useEffect(() => {
     
-  };
+    const token = localStorage.getItem("accessToken");
+    console.log(token);
+    setToken(token);
+    setPieChartData([
+      ["Task", "Hours per Day"],
+      ["Work", 9 ],
+      ["Eat", 2],
+      ["Commute", 2],
+      ["Watch TV", 2],
+      ["Sleep", 7],
+    ]);
+  },[]);
+
+
 
   const columnChartData = [
     ["Element", "Density", { role: "style" }],
@@ -38,15 +41,8 @@ const Home = () => {
     ["Sleep", 21.45, "color: #ff6361"], // CSS-style declaration
     ["Sleep", 21.45, "color: #ffa600"], // CSS-style declaration
   ];
-  const columnChartOptions={
-    title: "<Month> Spending",
-    backgroundColor: '#1f1f1f',
-    titleTextStyle: { color: 'white' },
-    legend: "none", // This removes the legend
-    colors: ["#4285F4", "#DB4437", "#F4B400"], // Custom slice colors
-    pieSliceBorderColor: "#000000", // Border color (black in this case)
-    pieSliceText: "value", // Optional, text displayed on slices
-  }
+
+
   const barChartData = [
     ["Category", "Segment 1", { role: "style" }, "Segment 2", { role: "style" }, "Segment 3", { role: "style" }, "Segment 4", { role: "style" }, "Segment 5", { role: "style" }],
     ["Jan", 112, "003f5c", 355, "#58508d", 298, "#bc5090", 374, "#ff6361", 132, "#ffa600"],
@@ -64,66 +60,49 @@ const Home = () => {
   
   ];
 
-  const barChartoptions = {
-    isStacked: true, // Stack segments in one bar
-    title: "Monthly total",
-    bar: { groupWidth: "95%" },
-    legend: { position: "none" },
-    backgroundColor: '#1f1f1f',
-    colors: ["#003f5c", "#58508d", "#bc5090", "#ff6361", "#ffa600"], // Custom colors
-    pieSliceText: "value", // Optional, text displayed on slices
-    titleTextStyle: {
-      color: "white", // Title text color (orange)
-      fontSize: 20, // Optional: Font size for the title
-      bold: true, // Optional: Bold title text
-    },
-    hAxis: {
-      title: "Values",
-      textStyle: {
-        color: "white", // Horizontal axis labels color (green)
-        fontSize: 12, // Optional: Font size for horizontal axis labels
-      },
-      titleTextStyle: {
-        color: "white", // Horizontal axis title color
-      },
-    },
 
 
-  vAxis: {
-    textStyle: {
-      color: "white", // Vertical axis labels color (blue)
-      fontSize: 12, // Optional: Font size for vertical axis labels
-    },
-    titleTextStyle: {
-      color: "white", // Vertical axis title color
-    },
-  },
+
+  const tok = ()=>{
+    
+    const token = localStorage.getItem("accessToken");
+    console.log(token);
+  }
+
+
+  const handleChange = async (event) => {
+    event.preventDefault();
+    try {
+      const token = localStorage.getItem("accessToken");
+  
+      // Data to send
+      const data = {
+        account: "6744329ab290af96de65e837",
+        year: "2024",
+        month: "11",
+      };
+  
+      // Use query parameters for GET
+      const response = await axios.post("expenses/getMonthlyExpenses", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+  
+      console.log(response.data);
+      setPieChartData(response.data);
+  
+      setError("");
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        setError("Invalid email or password");
+      } else {
+        setError("An unexpected error occurred");
+      }
+      console.error("Error logging in:", err);
+    }
   };
-
-  const data = [
-    { label: "Food", color: "#003f5c" },
-    { label: "Transportation", color: "#58508d" },
-    { label: "Utilities", color: "#bc5090" },
-    { label: "Entertainment", color: "#ff6361" },
-    { label: "Others", color: "#ffa600" },
-  ];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -132,28 +111,44 @@ const Home = () => {
   return (
     <div>
 
-      <div>
+      <div className="date-container">
+        <div className="date-container2">
+            
+          <label htmlFor="year" className="date-Item">year</label>
 
-        <label for="cars">Choose a car:</label>
+          <select name="cars" id="cars" className="date-Item" >
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+          </select>
 
-        <select name="cars" id="cars">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-        </select>
+        </div>
+
+        <div className="date-container2">
+          <label htmlFor="month" className="date-Item">month</label>
+
+          <select name="cars" id="cars" className="date-Item" >
+            <option value="1">Jan</option>
+            <option value="2">Feb</option>
+            <option value="3">Mar</option>
+            <option value="4">Apr</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">Aug</option>
+            <option value="9">Sept</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+          </select>
+          
+        </div>
       </div>
 
-      <div class="grid-container">
-        <div class="grid-item"><Chart
+      <div className="grid-container">
+        <div className="grid-item"><Chart
           chartType="PieChart"
           data={pieChartData}
           options={pieChartOptions}
@@ -161,13 +156,13 @@ const Home = () => {
           height={"300px"}
         /></div>
         
-        <div class="grid-item">
+        <div className="grid-item">
 
           <Chart chartType="ColumnChart" width="100%" height="100%" data={columnChartData} options={columnChartOptions} />
         </div>
 
 
-        <div class="grid-item">
+        <div className="grid-item">
         <Chart
           chartType="BarChart"
           width="100%"
@@ -178,36 +173,36 @@ const Home = () => {
         </div>  
       </div>
 
-      <div class="center">
-      <div style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
-      {data.map((item, index) => (
-        <div
-          key={index}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-             
-            color: "white"
-          }}
-        >
+      <div className="center">
+        <div style={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+        {data.map((item, index) => (
           <div
+            key={index}
             style={{
-              width: "16px",
-              height: "16px",
-              backgroundColor: item.color,
-              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              
+              color: "white"
             }}
-          ></div>
-          <span>{item.label}</span>
+          >
+            <div
+              style={{
+                width: "16px",
+                height: "16px",
+                backgroundColor: item.color,
+                borderRadius: "50%",
+              }}
+            ></div>
+            <span>{item.label}</span>
+          </div>
+        ))}
         </div>
-      ))}
-    </div>
       </div>
 
       
     
-
+        <button onClick={handleChange}>sad</button>
 
 
     </div>

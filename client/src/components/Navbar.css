@@ -3,7 +3,7 @@
     justify-content: space-between; /* Space between logo and links */
     align-items: center;        /* Vertically align items */
     padding: 10px 10px;
-    background-color: #007bff;  /* Navbar background color */
+    background-color: #1f1f1f;  /* Navbar background color */
     color: white;
     border: 10px solid transparent; /* Border for hover effect */
     border-radius: 5px;         /* Rounded edges for buttons */
@@ -35,11 +35,11 @@
   
   .navbar-link:hover {
     background-color: white;    /* Change background on hover */
-    color: #007bff;             /* Change text color on hover */
+    color: #1f1f1f;             /* Change text color on hover */
     border-color: white;        /* Add border on hover */
   }
   
   .navbar-link.active {
-    background-color: #0056b3;  /* Highlight active link */
+    background-color: #1f1f1f;  /* Highlight active link */
     color: white;               /* Keep text white */
   }

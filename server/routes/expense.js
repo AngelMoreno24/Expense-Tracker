@@ -7,6 +7,6 @@ router.post("/add", verifyToken, addExpense);
 
 router.get("/getExpense", verifyToken, getExpense);
 
-router.get("/getMonthlyExpenses", getMonthlyExpenses);
+router.post("/getMonthlyExpenses", verifyToken, getMonthlyExpenses);
 
 export default router;

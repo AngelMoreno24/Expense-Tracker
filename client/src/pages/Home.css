@@ -25,6 +25,24 @@ label{
 }
 .date-container{
 
+  justify-content: center;
+  display: grid;
+  grid-template-columns: 50px 50px;
+  gap: 10px;
+}
+
+.date-container2{
+
   display: grid;
   grid-template-rows: 30px 30px;
+  justify-content: center;
+}
+
+
+.date-Item{
+  background-color: #1f1f1f;
+  border-color: #1f1f1f;
+  color: aliceblue;
+  font-size: 15px;
+  height: 20px;
 }

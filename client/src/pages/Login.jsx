@@ -10,45 +10,29 @@ const LogIn = () => {
     const [token, setToken] = useState(null);
   
   
-    const handleSubmit = (e) => {
-      e.preventDefault();
-  
-      // Basic validation
-      if (!email || !password) {
-        setError('Both fields are required.');
-        return;
-      }
-  
-      setError(''); // Clear errors
-      console.log('Logging in:', { email, password });
-  
-      // Handle actual login logic here (e.g., call an API)
-      // Example:
-      // axios.post('/api/login', { email, password })
-      //   .then(response => handleSuccess(response))
-      //   .catch(error => setError(error.message));
-    };
-
-
 
     const handleSubmit2 = async (event) => {
       event.preventDefault();
       try {
-        const response = await axios.post("/Login", null, {
-          params: {
-              email: email,
-              password: password
-          }
-      });
+
+
+        const data = 
+        {
+            email: "angel@email.com",
+            password: "password1"
+        };
+
+        const response = await axios.post("accounts/login", data);
+
         const { Token } = response.data;
-        const { Role } = response.data;
   
         // Save token in local storage or state
-        localStorage.setItem('token', Token);
+      localStorage.setItem("accessToken", response.data.accessToken);
+
         setToken(Token);
-        localStorage.setItem('role', Role);
-        setToken(Role);
-        window.location.href = '/Menu'; 
+
+        console.log(token);
+        window.location.href = '/Home'; 
         //console.log("Logged in successfully:", Token);
   
         setError('');
@@ -71,6 +55,7 @@ const LogIn = () => {
       
       <div className="login-page">
         <h2>Login</h2>
+        
         <form onSubmit={handleSubmit2} className="login-form">
           {error && <p className="error-message">{error}</p>}
           <div className="form-group">
