@@ -9,38 +9,27 @@ const Home = () => {
 
 
   const [error, setError] = useState('');
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("2024");
+  const [month, setMonth] = useState("11");
   const [token, setToken] = useState(null);
   const [pieChartData, setPieChartData] = useState('');
+  const [columnChartData, setColumnChartData] = useState('');
 
-
+  const [dataFound, setDataFound] = useState(false);
 
   useEffect(() => {
     
     const token = localStorage.getItem("accessToken");
     console.log(token);
     setToken(token);
-    setPieChartData([
-      ["Task", "Hours per Day"],
-      ["Work", 9 ],
-      ["Eat", 2],
-      ["Commute", 2],
-      ["Watch TV", 2],
-      ["Sleep", 7],
-    ]);
+
+
+
+    handleChange();
+
   },[]);
 
 
-
-  const columnChartData = [
-    ["Element", "Density", { role: "style" }],
-    ["Work", 8.94, "#003f5c"], // RGB value
-    ["Eat", 10.49, "#58508d"], // English color name
-    ["Commute", 19.3, "#bc5090"],
-    ["Sleep", 21.45, "color: #ff6361"], // CSS-style declaration
-    ["Sleep", 21.45, "color: #ffa600"], // CSS-style declaration
-  ];
 
 
   const barChartData = [
@@ -70,8 +59,8 @@ const Home = () => {
   }
 
 
-  const handleChange = async (event) => {
-    event.preventDefault();
+  const handleChange = async () => {
+    
     try {
       const token = localStorage.getItem("accessToken");
   
@@ -90,17 +79,78 @@ const Home = () => {
         },
       });
   
+      console.log("ada");
       console.log(response.data);
+
       //setPieChartData(response.data);
       let dataP = [
-        ["Task", "Hours per Day"]];
-      response.data.map((item)=>{
+        ["Task", "Hours per Day"],
+        ["Food", 0 ],
+        ["Transportation", 0],
+        ["Utilities", 0],
+        ["Entertainment", 0],
+        ["Others", 0]
+      ];
 
-        dataP.push([item._id, item.totalAmount]);
-      });
+      let dataC = [
+        ["Element", "Density", { role: "style" }],
+        ["Food", 0.00, "#003f5c"], // RGB value
+        ["Transportation", 0.00, "#58508d"], // English color name
+        ["Utilities", 0.00, "#bc5090"],
+        ["Entertainment", 0.00, "color: #ff6361"], // CSS-style declaration
+        ["Others", 0.00, "color: #ffa600"], // CSS-style declaration
+      ];
+        
+
+      //fills in 0's for empty data 
+      if(response.data.length === 0){
+        console.log("empty")
+
+        setPieChartData(dataP);
+        setColumnChartData(dataC);
+        setDataFound(false);
+        return null;
+      }
+      setDataFound(true);
+        
+
+      // Convert the response data to a map for easy lookup by task name
+      const responseMap = new Map(
+        response.data.map(item => [item._id, item.totalAmount])
+      );
+
+      // Iterate through dataP starting from the second row (skip header)
+      for (let i = 1; i < dataP.length; i++) {
+        const taskName = dataP[i][0];  // Task name (first element of the row)
+
+        // If the task exists in the response, update the value, otherwise set to 0
+        dataP[i][1] = responseMap.has(taskName) ? responseMap.get(taskName) : 0;
+      }
 
       setPieChartData(dataP);
       console.log(dataP);
+
+
+
+
+      // Convert the response data to a map for easy lookup by task name
+      const responseMapC = new Map(
+        response.data.map(item => [item._id, item.totalAmount])
+      );
+
+      // Iterate through dataP starting from the second row (skip header)
+      for (let i = 1; i < dataC.length; i++) {
+        const taskName = dataC[i][0];  // Task name (first element of the row)
+
+        // If the task exists in the response, update the value, otherwise set to 0
+        dataC[i][1] = responseMapC.has(taskName) ? responseMapC.get(taskName) : 0;
+      }
+
+      setColumnChartData(dataC);
+      console.log(dataC);
+
+
+
 
       setError("");
     } catch (err) {
@@ -124,13 +174,23 @@ const Home = () => {
     console.log(event.target.value);
   };
 
-  
+  useEffect(() => {
+    handleChange();
+  }, [month]); // Dependency array with `month`
+  useEffect(() => {
+    handleChange();
+  }, [year]); // Dependency array with `month`
+
+
   return (
     <div>
 
+
       <div className="date-container">
+
         <div className="date-container2">
             
+
           <label htmlFor="year" className="date-Item">year</label>
 
           <select name="cars" id="cars" className="date-Item" value={year} onChange={handleChangeYear} >
@@ -161,36 +221,41 @@ const Home = () => {
             <option value="12">Dec</option>
           </select>
           
-        <button onClick={handleChange}>find</button>
         </div>
         
       </div>
 
-      <div className="grid-container">
-        <div className="grid-item"><Chart
-          chartType="PieChart"
-          data={pieChartData}
-          options={pieChartOptions}
-          width={"100%"}
-          height={"300px"}
-        /></div>
-        
-        <div className="grid-item">
 
-          <Chart chartType="ColumnChart" width="100%" height="100%" data={columnChartData} options={columnChartOptions} />
-        </div>
-
-
-        <div className="grid-item">
-        <Chart
-          chartType="BarChart"
-          width="100%"
-          height="100%"
-          data={barChartData}
-          options={barChartoptions}
-        />
-        </div>  
-      </div>
+      {dataFound?
+        (<div className="grid-container">
+          <div className="grid-item"><Chart
+            chartType="PieChart"
+            data={pieChartData}
+            options={pieChartOptions}
+            width={"100%"}
+            height={"300px"}
+          /></div>
+  
+          <div className="grid-item">
+            <Chart chartType="ColumnChart" width="100%" height="100%" data={columnChartData} options={columnChartOptions} />
+          </div>
+          
+          <div className="grid-item">
+          <Chart
+            chartType="BarChart"
+            width="100%"
+            height="100%"
+            data={barChartData}
+            options={barChartoptions}
+          />
+          </div>  
+        </div>)
+          
+        :
+        (<p className="date-Item">No Data Found</p>
+        )
+      }
+      
 
       <div className="center">
         <div style={{ display: "flex", flexDirection: "row", gap: "8px" }}>

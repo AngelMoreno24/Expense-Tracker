@@ -1,7 +1,4 @@
 
-
-import { Chart } from "react-google-charts";
-
 export const pieChartOptions = {
     legend: "none", // This removes the legend
     title: "My Daily Activities",
