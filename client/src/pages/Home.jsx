@@ -14,7 +14,7 @@ const Home = () => {
   const [token, setToken] = useState(null);
   const [pieChartData, setPieChartData] = useState('');
   const [columnChartData, setColumnChartData] = useState('');
-
+  const [barChartData, setBarChartData] = useState('');
   const [dataFound, setDataFound] = useState(false);
 
   useEffect(() => {
@@ -23,41 +23,9 @@ const Home = () => {
     console.log(token);
     setToken(token);
 
-
-
     handleChange();
-
+    getYear();
   },[]);
-
-
-
-
-  const barChartData = [
-    ["Category", "Segment 1", { role: "style" }, "Segment 2", { role: "style" }, "Segment 3", { role: "style" }, "Segment 4", { role: "style" }, "Segment 5", { role: "style" }],
-    ["Jan", 112, "003f5c", 355, "#58508d", 298, "#bc5090", 374, "#ff6361", 132, "#ffa600"],
-    ["Feb", 233, "003f5c", 149, "#58508d", 391, "#bc5090", 208, "#ff6361", 177, "#ffa600"],
-    ["Mar", 397, "003f5c", 319, "#58508d", 132, "#bc5090", 281, "#ff6361", 364, "#ffa600"],
-    ["Apr", 283, "003f5c", 95, "#58508d", 192, "#bc5090", 343, "#ff6361", 298, "#ffa600"],
-    ["May", 187, "003f5c", 237, "#58508d", 398, "#bc5090", 354, "#ff6361", 288, "#ffa600"],
-    ["June", 341, "003f5c", 121, "#58508d", 227, "#bc5090", 112, "#ff6361", 298, "#ffa600"],
-    ["July", 359, "003f5c", 192, "#58508d", 128, "#bc5090", 372, "#ff6361", 394, "#ffa600"],
-    ["Aug", 229, "003f5c", 382, "#58508d", 245, "#bc5090", 198, "#ff6361", 139, "#ffa600"],
-    ["Sept", 388, "003f5c", 268, "#58508d", 103, "#bc5090", 371, "#ff6361", 218, "#ffa600"],
-    ["Oct", 354, "003f5c", 119, "#58508d", 241, "#bc5090", 359, "#ff6361", 173, "#ffa600"],
-    ["Nov", 271, "003f5c", 397, "#58508d", 154, "#bc5090", 267, "#ff6361", 323, "#ffa600"],
-    ["Dec", 320, "003f5c", 135, "#58508d", 265, "#bc5090", 387, "#ff6361", 311, "#ffa600"],
-  
-  ];
-
-
-
-
-  const tok = ()=>{
-    
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-  }
-
 
   const handleChange = async () => {
     
@@ -159,6 +127,106 @@ const Home = () => {
   };
 
 
+  const getYear = async () => {
+    
+    try {
+      const token = localStorage.getItem("accessToken");
+  
+      // Data to send
+      const data = {
+        account: "6744329ab290af96de65e837",
+        year: "2024"
+      };
+  
+      // Use query parameters for GET
+      const response = await axios.post("expenses/getYearExpenses", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+  
+      console.log("barbar");
+      console.log(response.data);
+
+          
+      const barChartData = [
+        ["Category", "Segment 1", { role: "style" }, "Segment 2", { role: "style" }, "Segment 3", { role: "style" }, "Segment 4", { role: "style" }, "Segment 5", { role: "style" }],
+        ["Jan", 0, "003f5c", 0, "#58508d", 0, "#bc5090", 0, "#ff6361", 0, "#ffa600"],
+        ["Feb", 0, "003f5c", 0, "#58508d", 0, "#bc5090", 0, "#ff6361", 0, "#ffa600"],
+        ["Mar", 0, "003f5c", 0, "#58508d", 0, "#bc5090", 0, "#ff6361", 0, "#ffa600"],
+        ["Apr", 0, "003f5c", 0, "#58508d", 0, "#bc5090", 0, "#ff6361", 0, "#ffa600"],
+        ["June", 0, "003f5c", 0, "#58508d", 0, "#bc5090", 0, "#ff6361", 0, "#ffa600"],
+        ["July", 0, "003f5c", 0, "#58508d", 0, "#bc5090", 0, "#ff6361", 0, "#ffa600"],
+        ["Aug", 0, "003f5c", 0, "#58508d", 0, "#bc5090", 0, "#ff6361", 0, "#ffa600"],
+        ["Sept", 0, "003f5c", 0, "#58508d", 0, "#bc5090", 0, "#ff6361", 0, "#ffa600"],
+        ["Oct", 0, "003f5c", 0, "#58508d", 0, "#bc5090", 0, "#ff6361", 0, "#ffa600"],
+        ["Nov", 0, "003f5c", 0, "#58508d", 0, "#bc5090", 0, "#ff6361", 0, "#ffa600"],
+        ["Dec", 0, "003f5c", 0, "#58508d", 0, "#bc5090", 0, "#ff6361", 0, "#ffa600"],
+      ];
+
+      // Map categories to segment indexes
+      const categoryMap = {
+        Food: 1,           // Segment 1
+        Transportation: 3, // Segment 2
+        Utilities: 5,      // Segment 3
+        Entertainment: 7,  // Segment 4
+        Others: 9,         // Segment 5
+      };
+
+    
+      //fills in 0's for empty data 
+      if(response.data.length === 0){
+        console.log("empty")
+
+        setDataFound(false);
+        return null;
+      }
+
+      setDataFound(true);
+          
+
+      // Map the months to names for the barChartData
+    const monthNames = [
+      "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec",
+    ];
+
+    // Update barChartData based on the response data
+    const updatedBarChartData = barChartData.map((row, index) => {
+      if (index === 0) return row; // Skip the header row
+
+      const monthName = row[0]; // First element in each row is the month name
+      const monthIndex = monthNames.indexOf(monthName) + 1; // Convert month name to index (1–12)
+
+      const monthData = response.data.find((data) => data.month === monthIndex.toString());
+      if (monthData) {
+        monthData.categories.forEach(({ category, totalAmount }) => {
+          const segmentIndex = categoryMap[category];
+          if (segmentIndex !== undefined) {
+            row[segmentIndex] = totalAmount; // Update the value for the specific segment
+          }
+        });
+      }
+
+      return row;
+    });
+
+
+    console.log("Updated Bar Chart Data:", updatedBarChartData);
+
+    // Save or update the bar chart data in your state
+    setBarChartData(updatedBarChartData);
+
+
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        setError("Invalid email or password");
+      } else {
+        setError("An unexpected error occurred");
+      }
+      console.error("Error logging in:", err);
+    }
+  };
 
 
   const handleChangeYear = (event) => {
