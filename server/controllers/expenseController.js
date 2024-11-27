@@ -110,41 +110,64 @@ export const getMonthlyExpenses = async (request, response) => {
     return response.status(500).send({ message: error.message });
   }
 };
-
-
 export const getYearExpenses = async (request, response) => {
   try {
-    const { account, year, month } = request.body; // Extract account ID, year, and month from the request body
+    const { account, year } = request.body; // Extract account ID and year from the request body
 
-    if (!account || !year ) {
-      return response.status(400).send({ message: "Account ID, year, and month are required." });
+    if (!account || !year) {
+      return response
+        .status(400)
+        .send({ message: "Account ID and year are required." });
     }
 
-    // Define start and end dates for the month
-    const startDate = new Date(year, 1 - 1, 1); // Start of the month
-    const endDate = new Date(year, 12, 0, 23, 59, 59, 999); // End of the month
-
-    // Query expenses for the given account and date range
+    // Query expenses for the given account and year
     const expenses = await Expense.aggregate([
       {
         $match: {
-          account, // Match the account ID
-          createdAt: { $gte: startDate, $lte: endDate } // Match the date range
-        }
+          account,
+          year: year, // Match the provided year
+        },
       },
       {
         $group: {
-          _id: "$category", // Group by category
-          totalAmount: { $sum: "$amount" }, // Calculate total amount per category
-          count: { $sum: 1 } // Count number of expenses per category
-        }
-      }
+          _id: { month: "$month", category: "$category" }, // Group by month and category
+          totalAmount: { $sum: "$amount" }, // Calculate total amount for each category per month
+          count: { $sum: 1 }, // Count the number of expenses in each category per month
+        },
+      },
+      {
+        $group: {
+          _id: "$_id.month", // Group by month
+          categories: {
+            $push: {
+              category: "$_id.category",
+              totalAmount: "$totalAmount",
+              count: "$count",
+            },
+          },
+        },
+      },
+      {
+        $sort: { _id: 1 }, // Sort by month in ascending order
+      },
     ]);
 
-    return response.status(200).json(expenses); // Send the aggregated expenses as a response
+    // Format the response to include all months (1–12 explicitly)
+    const formattedExpenses = Array.from({ length: 12 }, (_, i) => {
+      const monthString = (i + 1).toString(); // Convert month number to string (e.g., "1" for January)
+      const monthData = expenses.find((expense) => expense._id === monthString);
+      return {
+        month: monthString, // Month as string
+        categories: monthData ? monthData.categories : [], // Categories for the month or an empty array
+      };
+    });
+
+    return response.status(200).json(formattedExpenses); // Send the formatted data as a response
   } catch (error) {
     console.error(error.message);
     return response.status(500).send({ message: error.message });
   }
 };
+
+
 export default router;
