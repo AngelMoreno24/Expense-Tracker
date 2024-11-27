@@ -131,8 +131,6 @@ const Home = () => {
       console.log(dataP);
 
 
-
-
       // Convert the response data to a map for easy lookup by task name
       const responseMapC = new Map(
         response.data.map(item => [item._id, item.totalAmount])
@@ -149,9 +147,6 @@ const Home = () => {
       setColumnChartData(dataC);
       console.log(dataC);
 
-
-
-
       setError("");
     } catch (err) {
       if (err.response && err.response.status === 401) {
@@ -162,6 +157,8 @@ const Home = () => {
       console.error("Error logging in:", err);
     }
   };
+
+
 
 
   const handleChangeYear = (event) => {

@@ -109,4 +109,39 @@ export const getMonthlyExpenses = async (request, response) => {
 };
 
 
+export const getYearExpenses = async (request, response) => {
+  try {
+    const { account, year, month } = request.body; // Extract account ID, year, and month from the request body
+
+    if (!account || !year ) {
+      return response.status(400).send({ message: "Account ID, year, and month are required." });
+    }
+
+    // Define start and end dates for the month
+    const startDate = new Date(year, 1 - 1, 1); // Start of the month
+    const endDate = new Date(year, 12, 0, 23, 59, 59, 999); // End of the month
+
+    // Query expenses for the given account and date range
+    const expenses = await Expense.aggregate([
+      {
+        $match: {
+          account, // Match the account ID
+          createdAt: { $gte: startDate, $lte: endDate } // Match the date range
+        }
+      },
+      {
+        $group: {
+          _id: "$category", // Group by category
+          totalAmount: { $sum: "$amount" }, // Calculate total amount per category
+          count: { $sum: 1 } // Count number of expenses per category
+        }
+      }
+    ]);
+
+    return response.status(200).json(expenses); // Send the aggregated expenses as a response
+  } catch (error) {
+    console.error(error.message);
+    return response.status(500).send({ message: error.message });
+  }
+};
 export default router;

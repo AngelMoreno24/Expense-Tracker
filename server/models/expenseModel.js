@@ -18,6 +18,14 @@ const expenseSchema = mongoose.Schema(
         account: {
             type: String,
             required: true
+        },
+        year: {
+            type: String,
+            required: true
+        },
+        Month: {
+            type: String,
+            required: true
         }
     },
     {
