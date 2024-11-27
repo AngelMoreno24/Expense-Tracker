@@ -289,37 +289,50 @@ const Home = () => {
         </div>
         
       </div>
-
-
-      {dataFound?
-        (<div className="grid-container">
-          <div className="grid-item"><Chart
-            chartType="PieChart"
-            data={pieChartData}
-            options={pieChartOptions}
-            width={"100%"}
-            height={"300px"}
-          /></div>
-  
-          <div className="grid-item">
-            <Chart chartType="ColumnChart" width="100%" height="100%" data={columnChartData} options={columnChartOptions} />
+      {dataFound ? (
+        <div className="grid-container">
+          {/* PieChart */}
+          <div className="grid-item chart-container">
+            <div className="chart-inner">
+              <Chart
+                chartType="PieChart"
+                data={pieChartData}
+                options={pieChartOptions}
+                width="100%"
+                height="100%"
+              />
+            </div>
           </div>
-          
-          <div className="grid-item">
-          <Chart
-            chartType="BarChart"
-            width="100%"
-            height="100%"
-            data={barChartData}
-            options={barChartoptions}
-          />
-          </div>  
-        </div>)
-          
-        :
-        (<p className="date-Item">No Data Found</p>
-        )
-      }
+
+          {/* ColumnChart */}
+          <div className="grid-item chart-container">
+            <div className="chart-inner">
+              <Chart
+                chartType="ColumnChart"
+                data={columnChartData}
+                options={columnChartOptions}
+                width="100%"
+                height="100%"
+              />
+            </div>
+          </div>
+
+          {/* BarChart */}
+          <div className="grid-item chart-container">
+            <div className="chart-inner">
+              <Chart
+                chartType="BarChart"
+                data={barChartData}
+                options={barChartoptions}
+                width="100%"
+                height="100%"
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <p className="date-Item">No Data Found</p>
+      )}
       
 
       <div className="center">
@@ -348,6 +361,9 @@ const Home = () => {
         ))}
         </div>
       </div>
+
+      
+
 
       
     
