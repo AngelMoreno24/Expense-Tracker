@@ -90,8 +90,9 @@ export const getMonthlyExpenses = async (request, response) => {
     const expenses = await Expense.aggregate([
       {
         $match: {
-          account, // Match the account ID
-          createdAt: { $gte: startDate, $lte: endDate } // Match the date range
+          account, 
+          year: year, 
+          month: month 
         }
       },
       {
