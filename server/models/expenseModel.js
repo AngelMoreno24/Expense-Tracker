@@ -23,7 +23,7 @@ const expenseSchema = mongoose.Schema(
             type: String,
             required: true
         },
-        Month: {
+        month: {
             type: String,
             required: true
         }
