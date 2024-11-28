@@ -11,7 +11,6 @@ export const addExpense = async (request, response) => {
         !request.body.amount ||
         !request.body.description ||
         !request.body.category ||
-        !request.body.account ||
         !request.body.description ||
         !request.body.year ||
         !request.body.month 
@@ -25,7 +24,7 @@ export const addExpense = async (request, response) => {
         amount: request.body.amount,
         description: request.body.description,
         category: request.body.category,
-        account: request.body.account,
+        account: request.id,
         year: request.body.year,
         month: request.body.month,
     };

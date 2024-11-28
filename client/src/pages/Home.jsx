@@ -3,7 +3,8 @@ import { Chart } from "react-google-charts";
 import axios from 'axios';
 import "./Home.css"
 import {pieChartOptions, columnChartOptions, barChartoptions, data} from "../chartOptions/chart"
-
+import Popup from 'reactjs-popup';
+import Modal from "../components/Modal";
 
 const Home = () => {
 
@@ -309,6 +310,23 @@ const Home = () => {
     fetchData();
   }, [year, month]); // Refetch data if year or month changes
 
+
+
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+      setOpen(false);
+  };
+
+  const handleOpen = () => {
+      setOpen(true);
+  };
+
+
+
+
+
   return (
     <div>
 
@@ -423,14 +441,32 @@ const Home = () => {
         </div>
       </div>
 
+      <div className="editor">     
+        <div className="editor-left">
+          <p>Transactions</p>
+        </div>
+        <div className="editor-right">
+          <div className="editor-btn">
+            
+          <Modal />
+          </div>
+        </div>
+      </div>
       
       <div className='card-grid'>
+
+        <div className="card">
+          <h3>Category</h3>
+          <h3>Amount</h3>
+          <h3>Description</h3>
+        </div>
+
 
         {cardData.map((item, index) => (
           <div key={index} className="card">
 
             
-            <h3>{item.category}</h3>
+            <p>{item.category}</p>
             <p>Amount: ${item.amount}</p>
             <p>{item.description}</p>
           </div>

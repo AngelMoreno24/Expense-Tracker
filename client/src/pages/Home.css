@@ -90,3 +90,52 @@ label{
   grid-template-columns: 1fr 1fr 1fr 1fr;
   
 }
+
+.editor{
+  margin-top: 20px;
+  background-color: rgb(53, 53, 53);
+  
+  text-align: center;
+  color: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* One column spanning full width */
+  gap: 5px; /* Adds vertical spacing between rows */
+}
+.editor-left{
+  justify-self: start;
+  padding-left: 70px;
+}
+.editor-right{
+  
+  display: grid;
+  justify-self: end;
+  margin-right: 40px;
+
+}
+.editor-btn{
+
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 30px;
+  width: 60px;
+}
+
+
+.popup{
+  background-color: rgb(80, 80, 80);
+  width: 600px;
+  height: 400px;
+  border-radius: 50px ;
+  display: flex;
+  margin-right: auto;
+  margin-left: auto;
+  position: static;
+}
+.popup-content{
+  
+  display: grid;
+  grid-template-columns: 150px 150px;
+  grid-template-rows:  50px 50px;
+  margin-right: auto;
+  margin-left: auto;
+}

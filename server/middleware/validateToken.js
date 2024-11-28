@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken'
 
 
-export const verifyToken = async (req, res, next ) => {
+export const verifyToken = async (request, res, next ) => {
 
     let token;
-    let authHeader = req.headers.Authorization || req.headers.authorization;
+    let authHeader = request.headers.Authorization || request.headers.authorization;
 
     if(authHeader && authHeader.startsWith("Bearer")){
         
@@ -15,7 +15,8 @@ export const verifyToken = async (req, res, next ) => {
                 throw new Error("User is not authorized");
             }
 
-            req.user = decoded.user
+            request.id = decoded.account.id
+            console.log(request.id);
             next();
 
         });
