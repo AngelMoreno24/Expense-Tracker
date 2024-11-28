@@ -14,18 +14,27 @@ export const pieChartOptions = {
 
 
 export const columnChartOptions={
-  title: "<Month> Spending",
+  title: `month spending`,
   backgroundColor: '#1f1f1f',
   titleTextStyle: { color: 'white' },
   legend: "none", // This removes the legend
   colors: ["#4285F4", "#DB4437", "#F4B400"], // Custom slice colors
   pieSliceBorderColor: "#000000", // Border color (black in this case)
   pieSliceText: "value", // Optional, text displayed on slices
+
+  vAxis: {
+    textStyle: {
+      color: "#FFFFFF", // Y-Axis text color
+      fontSize: 11, // Optional: Y-Axis font size
+    },
+  },
+  
+
 };
 
 export const barChartoptions = {
     isStacked: true, // Stack segments in one bar
-    title: "Monthly total",
+    title: "Year totals",
     bar: { groupWidth: "95%" },
     legend: { position: "none" },
     backgroundColor: '#1f1f1f',
@@ -37,21 +46,17 @@ export const barChartoptions = {
       bold: true, // Optional: Bold title text
     },
     hAxis: {
-      title: "Values",
       textStyle: {
         color: "white", // Horizontal axis labels color (green)
-        fontSize: 12, // Optional: Font size htmlFor horizontal axis labels
-      },
-      titleTextStyle: {
-        color: "white", // Horizontal axis title color
-      },
+        fontSize: 11, // Optional: Font size htmlFor horizontal axis labels
+      }
     },
 
 
     vAxis: {
       textStyle: {
         color: "white", // Vertical axis labels color (blue)
-        fontSize: 12, // Optional: Font size htmlFor vertical axis labels
+        fontSize: 11, // Optional: Font size htmlFor vertical axis labels
       },
       titleTextStyle: {
         color: "white", // Vertical axis title color

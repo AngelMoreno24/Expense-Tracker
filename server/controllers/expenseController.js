@@ -110,6 +110,8 @@ export const getMonthlyExpenses = async (request, response) => {
     return response.status(500).send({ message: error.message });
   }
 };
+
+
 export const getYearExpenses = async (request, response) => {
   try {
     const { account, year } = request.body; // Extract account ID and year from the request body
@@ -169,5 +171,35 @@ export const getYearExpenses = async (request, response) => {
   }
 };
 
+
+export const getMonthOrder = async (request, response) => {
+  try {
+    const { account, year, month } = request.body; // Extract account ID, year, and month from the request body
+
+    if (!account || !year || !month) {
+      return response.status(400).send({ message: "Account ID, year, and month are required." });
+    }
+
+    // Define start and end dates for the month
+    const startDate = new Date(year, month - 1, 1); // Start of the month
+    const endDate = new Date(year, month, 0, 23, 59, 59, 999); // End of the month
+
+    // Query expenses for the given account and date range
+    const expenses = await Expense.aggregate([
+      {
+        $match: {
+          account, 
+          year: year, 
+          month: month 
+        }
+      }
+    ]);
+
+    return response.status(200).json(expenses); // Send the aggregated expenses as a response
+  } catch (error) {
+    console.error(error.message);
+    return response.status(500).send({ message: error.message });
+  }
+};
 
 export default router;

@@ -17,10 +17,12 @@ const Home = () => {
   const [barChartData, setBarChartData] = useState('');
   const [dataFound, setDataFound] = useState(false);
 
+  const [cardData, setCardData] = useState([]);
+
   useEffect(() => {
     
     const token = localStorage.getItem("accessToken");
-    console.log(token);
+    //console.log(token);
     setToken(token);
 
     handleChange();
@@ -47,8 +49,8 @@ const Home = () => {
         },
       });
   
-      console.log("ada");
-      console.log(response.data);
+      //console.log("ada");
+      //console.log(response.data);
 
       //setPieChartData(response.data);
       let dataP = [
@@ -72,7 +74,7 @@ const Home = () => {
 
       //fills in 0's for empty data 
       if(response.data.length === 0){
-        console.log("empty")
+        //console.log("empty")
 
         setPieChartData(dataP);
         setColumnChartData(dataC);
@@ -96,7 +98,7 @@ const Home = () => {
       }
 
       setPieChartData(dataP);
-      console.log(dataP);
+      //console.log(dataP);
 
 
       // Convert the response data to a map for easy lookup by task name
@@ -113,7 +115,7 @@ const Home = () => {
       }
 
       setColumnChartData(dataC);
-      console.log(dataC);
+      //console.log(dataC);
 
       setError("");
     } catch (err) {
@@ -122,7 +124,8 @@ const Home = () => {
       } else {
         setError("An unexpected error occurred");
       }
-      console.error("Error logging in:", err);
+      //
+      //console.error("Error logging in:", err);
     }
   };
 
@@ -146,8 +149,8 @@ const Home = () => {
         },
       });
   
-      console.log("barbar");
-      console.log(response.data);
+      //console.log("barbar");
+      //console.log(response.data);
 
           
       const barChartData = [
@@ -177,7 +180,7 @@ const Home = () => {
     
       //fills in 0's for empty data 
       if(response.data.length === 0){
-        console.log("empty")
+        //console.log("empty")
 
         setDataFound(false);
         return null;
@@ -212,7 +215,7 @@ const Home = () => {
     });
 
 
-    console.log("Updated Bar Chart Data:", updatedBarChartData);
+   //console.log("Updated Bar Chart Data:", updatedBarChartData);
 
     // Save or update the bar chart data in your state
     setBarChartData(updatedBarChartData);
@@ -231,12 +234,12 @@ const Home = () => {
 
   const handleChangeYear = (event) => {
     setYear(event.target.value); // Get the selected value
-    console.log(event.target.value);
+    //console.log(event.target.value);
   };
 
   const handleChangeMonth = (event) => {
     setMonth(event.target.value); // Get the selected value
-    console.log(event.target.value);
+    //console.log(event.target.value);
   };
 
   useEffect(() => {
@@ -247,9 +250,67 @@ const Home = () => {
   }, [year]); // Dependency array with `month`
 
 
+
+  const getCardData = async () => {
+    
+    try {
+      const token = localStorage.getItem("accessToken");
+  
+      // Data to send
+      const data = {
+        account: "6744329ab290af96de65e837",
+        year: year,
+        month: month,
+      };
+  
+      // Use query parameters for GET
+      const response = await axios.post("expenses/getMonthOrder", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+  
+      //fills in 0's for empty data 
+      if(response.data.length === 0){
+        //console.log("empty")
+
+        setDataFound(false);
+        return null;
+      }
+      setDataFound(true);
+        
+
+      // Convert the response data to a map for easy lookup by task name
+    
+      return response.data;
+
+
+      setError("");
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        setError("Invalid email or password");
+      } else {
+        setError("An unexpected error occurred");
+      }
+      //
+      //console.error("Error logging in:", err);
+    }
+  };
+
+
+  // UseEffect to fetch data on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getCardData();
+      setCardData(data); // Update state with fetched data
+    };
+
+    fetchData();
+  }, [year, month]); // Refetch data if year or month changes
+
   return (
     <div>
-
 
       <div className="date-container">
 
@@ -363,9 +424,22 @@ const Home = () => {
       </div>
 
       
+      <div className='card-grid'>
+
+        {cardData.map((item, index) => (
+          <div key={index} className="card">
+
+            
+            <h3>{item.category}</h3>
+            <p>Amount: ${item.amount}</p>
+            <p>{item.description}</p>
+          </div>
+        ))}
+
+      </div>
 
 
-      
+
     
 
 
