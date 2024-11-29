@@ -19,6 +19,8 @@ const Home = () => {
   const [dataFound, setDataFound] = useState(false);
 
   const [cardData, setCardData] = useState([]);
+  
+  const [cardDataExists, setCardDataExists] = useState(false);
 
   useEffect(() => {
     
@@ -463,15 +465,17 @@ const Home = () => {
 
 
         {
-          dataFound? (cardData.map((item, index) => (
-            <div key={index} className="card">
-
-              
-              <p>{item.category}</p>
-              <p>Amount: ${item.amount}</p>
-              <p>{item.description}</p>
-            </div>
-          ))
+          (dataFound && cardData!=null)? (
+            cardData.map((item, index) => (
+              <div key={index} className="card">
+  
+                
+                <p>{item.category}</p>
+                <p>Amount: ${item.amount}</p>
+                <p>{item.description}</p>
+              </div>
+            ))
+            
           ):
           (<div  className="card">
 
