@@ -13,7 +13,8 @@ export const addExpense = async (request, response) => {
         !request.body.category ||
         !request.body.description ||
         !request.body.year ||
-        !request.body.month 
+        !request.body.month ||
+        !request.body.day 
       
     ) {
       return response.status(400).send({
@@ -27,6 +28,7 @@ export const addExpense = async (request, response) => {
         account: request.id,
         year: request.body.year,
         month: request.body.month,
+        day: request.body.day,
     };
 
     const expense = await Expense.create(newExpense);

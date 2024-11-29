@@ -462,15 +462,26 @@ const Home = () => {
         </div>
 
 
-        {cardData.map((item, index) => (
-          <div key={index} className="card">
+        {
+          dataFound? (cardData.map((item, index) => (
+            <div key={index} className="card">
 
-            
-            <p>{item.category}</p>
-            <p>Amount: ${item.amount}</p>
-            <p>{item.description}</p>
-          </div>
-        ))}
+              
+              <p>{item.category}</p>
+              <p>Amount: ${item.amount}</p>
+              <p>{item.description}</p>
+            </div>
+          ))
+          ):
+          (<div  className="card">
+
+              
+            <p></p>
+            <p>No Data found</p>
+            <p></p>
+          </div>)
+          
+        }
 
       </div>
 

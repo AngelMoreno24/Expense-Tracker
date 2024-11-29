@@ -17,7 +17,7 @@ body.active-modal {
 }
 
 .overlay {
-    background: rgba(49,49,49,0.8);
+    background: rgba(134, 134, 134, 0.8);
 }
 .modal-content {
     position: absolute;
@@ -29,11 +29,11 @@ body.active-modal {
     padding: 14px 28px;
     border-radius: 3px;
     max-width: 600px;
-    min-width: 300px;
+    min-width: 400px;
 
 
     display: grid;
-    grid-template-columns: 150px 150px;
+    grid-template-columns: 150px 200px;
     grid-template-rows:  50px 50px;
     margin-right: auto;
     margin-left: auto;
@@ -46,10 +46,36 @@ body.active-modal {
         
         width: 50px;
         height: 20px;
+        background-color: rgb(32, 32, 32);
+        color: white;
     }
     p{
         justify-self: right;
         padding-right: 10px;
+    }
+    
+    
+}
+
+.submit-btn{
+    width: 100px;
+}
+
+.input-div{
+    
+    display: grid;
+    grid-template-columns: 70px 70px 70px;
+    select{
+        margin-top: auto;
+        margin-bottom: auto;
+        justify-self: left;
+        
+        width: 60px;
+        height: 20px;
+    }
+    
+    input{
+        background-color: rgb(32, 32, 32);
     }
 }
 
