@@ -5,6 +5,7 @@ import "./Home.css"
 import {pieChartOptions, columnChartOptions, barChartoptions, data} from "../chartOptions/chart"
 import Popup from 'reactjs-popup';
 import Modal from "../components/Modal";
+import deleteItem from '../components/deleteItem';
 
 const Home = () => {
 
@@ -326,7 +327,10 @@ const Home = () => {
   };
 
 
-
+  const deleteExpense =  (id) => {
+    console.log(id);
+    
+  }
 
 
   return (
@@ -461,6 +465,7 @@ const Home = () => {
           <h3>Category</h3>
           <h3>Amount</h3>
           <h3>Description</h3>
+          <h3>date</h3>
         </div>
 
 
@@ -473,6 +478,11 @@ const Home = () => {
                 <p>{item.category}</p>
                 <p>Amount: ${item.amount}</p>
                 <p>{item.description}</p>
+                <p>{ item.year + "-"+ item.month +"-"+item.day}</p>
+                <div className='card-div'>
+                  <button >edit</button>
+                  <button onClick={() =>{deleteItem(item._id)}}>delete</button>
+                </div>
               </div>
             ))
             

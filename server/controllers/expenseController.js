@@ -203,4 +203,26 @@ export const getMonthOrder = async (request, response) => {
   }
 };
 
+
+// Route to get expense info
+export const deleteExpense =  async (request, response) => {
+  try {
+    const { id } = request.query; // Extract id from query parameters
+
+    if (!id) {
+      return response.status(400).send({ message: "Expense ID is required." });
+    }
+
+    const deleted = await Expense.deleteOne({ _id: id });
+    console.log(deleted);
+    return response.status(200).json(deleted);
+  } catch (error) {
+    console.error(error.message);
+    return response.status(500).send({ message: error.message });
+  }
+};
+
+
+
+
 export default router;
