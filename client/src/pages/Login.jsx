@@ -133,7 +133,7 @@ const LogIn = () => {
                   id="newUsername"
                   value={newUsername}
                   onChange={(e) => setNewUsername(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder="Enter your username"
                   required
                 />
               </div>
