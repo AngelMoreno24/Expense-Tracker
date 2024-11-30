@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken'
 
 export const verifyToken = async (request, res, next ) => {
 
+    try
+    {
+
     let token;
     let authHeader = request.headers.Authorization || request.headers.authorization;
 
@@ -25,5 +28,8 @@ export const verifyToken = async (request, res, next ) => {
             res.status(401);
             throw new Error("User is not authorized or token is missing");
         }
+    }
+    }catch(error){
+        console.log(error);
     }
 }

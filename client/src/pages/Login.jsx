@@ -10,6 +10,9 @@ const LogIn = () => {
     const [error, setError] = useState('');
     const [token, setToken] = useState(null);
   
+    const [newUsername, setNewUsername] = useState('');
+    const [newEmail, setNewEmail] = useState('');
+    const [newPassword, setNewPassword] = useState('');
   
 
     const handleSubmit2 = async (event) => {
@@ -19,8 +22,8 @@ const LogIn = () => {
 
         const data = 
         {
-            email: "angel@email.com",
-            password: "password1"
+            email: email,
+            password: password
         };
 
         const response = await axios.post("accounts/login", data);
@@ -48,6 +51,32 @@ const LogIn = () => {
     };
     
 
+    const Signup = async (event) => {
+      event.preventDefault();
+      try {
+
+        const data = 
+        {
+            username: newUsername,
+            email: newEmail,
+            password: newPassword
+        };
+
+        const response = await axios.post("accounts/create", data);
+
+  
+        window.location.href = '/'; 
+  
+        setError('');
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
+          setError("Invalid email or password");
+        } else {
+          setError("An unexpected error occurred");
+        }
+        console.error("Error logging in:", err);
+      }
+    };
     useEffect(() => {
       
       const token = localStorage.getItem("accessToken");
@@ -60,41 +89,84 @@ const LogIn = () => {
     return (
       
       <div className="login-page">
-        <h2>Login</h2>
-        
-        <form onSubmit={handleSubmit2} className="login-form">
-          {error && <p className="error-message">{error}</p>}
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-            />
+        <div className='split'>
+          <div>
+            <h2>Login</h2>
+            <form onSubmit={handleSubmit2} className="login-form">
+              {error && <p className="error-message">{error}</p>}
+              <div className="grid-layout">
+                <label htmlFor="email">Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div className="grid-layout">
+                <label htmlFor="password">Password:</label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+              <button type="submit" className="login-button">Login</button>
+            </form>
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              required
-            />
+          
+          <div>
+            <h2>Signup</h2>
+            <form onSubmit={Signup} className="login-form">
+              {error && <p className="error-message">{error}</p>}
+              
+              <div className='grid-layout'>
+
+                <label htmlFor="email">Username:</label>
+                <input
+                  type="text"
+                  id="newUsername"
+                  value={newUsername}
+                  onChange={(e) => setNewUsername(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div className='grid-layout'>
+                <label htmlFor="email">Email:</label>
+                <input
+                  type="email"
+                  id="newEmail"
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+              <div className='grid-layout'>
+                <label htmlFor="password">Password:</label>
+                <input
+                  type="password"
+                  id="newPassword"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+              <button type="submit" className="login-button">Login</button>
+            </form>
           </div>
-          <button type="submit" className="login-button">Login</button>
-        </form>
 
 
 
 
-
-
-
+        </div>
 
       </div>
     );

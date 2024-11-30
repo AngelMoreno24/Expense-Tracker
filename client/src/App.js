@@ -4,6 +4,7 @@ import {
   Route,
 } from "react-router-dom";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import Layout from "./components/Layout";
 import LoginLayout from "./components/LoginLayout";
 import Home from "./pages/Home";
@@ -25,6 +26,9 @@ function App() {
           <Route index element={<Login/>}></Route>
        </Route>
 
+       <Route path="/Signup" element={<LoginLayout />}>
+          <Route index element={<Signup/>}></Route>
+       </Route>
       </Routes>
       </BrowserRouter>
     </div>

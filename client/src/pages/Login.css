@@ -5,3 +5,26 @@ h2{
     color: rgb(223, 118, 118);
 }
 
+.split{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.grid-layout{
+    display: grid;
+    grid-template-columns: 4fr 6fr;
+    margin-right: auto;
+    margin-left: auto;
+    
+    font-size: 14px;
+    input{
+        margin-top: auto;
+        margin-bottom: auto;
+        justify-self: left;
+        
+    }
+    label{
+        justify-self: right;
+        padding-right: 10px;
+    }
+}

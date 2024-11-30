@@ -3,6 +3,15 @@ import { NavLink } from 'react-router-dom';
 import "./Navbar.css"
 
 const Navbar = () => {
+
+  const logout = () => {
+
+    localStorage.removeItem("accessToken");
+
+
+  }
+
+
   return (
     <nav className="navbar">
       <ul className="navbar-links">
@@ -12,13 +21,8 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/about" className="navbar-link" activeclassname="active">
-            About
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/contact" className="navbar-link" activeclassname="active">
-            Contact
+          <NavLink to="/" className="navbar-link" activeclassname="active" onClick={logout}>
+            logout
           </NavLink>
         </li>
       </ul>
