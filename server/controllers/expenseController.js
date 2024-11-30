@@ -222,6 +222,35 @@ export const deleteExpense =  async (request, response) => {
   }
 };
 
+// Route to get expense info
+export const editExpense =  async (request, response) => {
+  try {
+
+    const { id } = request.body; // Extract id from query parameters
+
+    if (!id) {
+      return response.status(400).send({ message: "Expense ID is required." });
+    }
+
+    //const deleted = await Expense.deleteOne({ _id: id });
+
+
+    const edited = await Expense.findById({ _id: id })
+
+    const updatedContact = await Expense.findByIdAndUpdate(
+      id,
+      request.body,
+      { new: true}
+    );
+
+    console.log(updatedContact);
+    return response.status(200).json(updatedContact);
+  } catch (error) {
+    console.error(error.message);
+    return response.status(500).send({ message: error.message });
+  }
+};
+
 
 
 

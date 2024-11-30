@@ -6,6 +6,12 @@ body.active-modal {
     font-size: 11px;
 }
 
+.btn-modal2 {
+    font-size: 11px;
+    margin-top: auto;
+    margin-bottom: auto;
+    justify-self: left;
+}
 .modal, .overlay {
     width: 100vw;
     height: 100vh;

@@ -6,6 +6,7 @@ import {pieChartOptions, columnChartOptions, barChartoptions, data} from "../cha
 import Popup from 'reactjs-popup';
 import Modal from "../components/Modal";
 import deleteItem from '../components/deleteItem';
+import EditExpense from '../components/editItem';
 
 const Home = () => {
 
@@ -248,13 +249,8 @@ const Home = () => {
 
   useEffect(() => {
     handleChange();
-  }, [month]); // Dependency array with `month`
-  useEffect(() => {
-    handleChange();
-  }, [year]); // Dependency array with `month`
-
-
-
+  }, [month, year]);
+  
   const getCardData = async () => {
     
     try {
@@ -480,7 +476,10 @@ const Home = () => {
                 <p>{item.description}</p>
                 <p>{ item.year + "-"+ item.month +"-"+item.day}</p>
                 <div className='card-div'>
-                  <button >edit</button>
+                  <div>
+                    
+                  <EditExpense  item={item}></EditExpense>
+                  </div>
                   <button onClick={() =>{deleteItem(item._id)}}>delete</button>
                 </div>
               </div>

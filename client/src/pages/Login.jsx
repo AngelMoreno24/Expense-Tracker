@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 const LogIn = () => {
 
@@ -47,8 +48,13 @@ const LogIn = () => {
     };
     
 
-
-
+    useEffect(() => {
+      
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        window.location.href = 'Home';
+      }
+    }, []); 
 
 
     return (

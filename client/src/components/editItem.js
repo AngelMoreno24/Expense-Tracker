@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Modal.css";
 import axios from "axios";
 
-export default function Modal() {
+export default function EditExpense({ item }) {
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => {
@@ -15,15 +15,14 @@ export default function Modal() {
     document.body.classList.remove('active-modal')
   }
 
-
-  const [year, setYear] = useState('2024');
-  const [month, setMonth] = useState('1');
-  const [day, setDay] = useState('');
+  // Pre-fill state values with the `item` data passed in as a prop
+  const [year, setYear] = useState(item?.year || "2024");
+  const [month, setMonth] = useState(item?.month || "1");
+  const [day, setDay] = useState(item?.day || "");
   const [error, setError] = useState('');
-  const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('Food');
-  const [amount, setAmount] = useState('');
-
+  const [description, setDescription] = useState(item?.description || "");
+  const [category, setCategory] = useState(item?.category || "Food");
+  const [amount, setAmount] = useState(item?.amount || "");
 
   const handleChangeYear = (event) => {
     setYear(event.target.value); // Get the selected value
@@ -38,13 +37,14 @@ export default function Modal() {
     setCategory(event.target.value); // Get the selected value
     //console.log(event.target.value);
   };
-  const addExpense = async () => {
+  const editExpense = async () => {
     
     try {
       const token = localStorage.getItem("accessToken");
   
       // Data to send
       const data = {
+        "id": item._id,
         "amount": Number(amount),
         "description": description,
         "category": category,
@@ -52,9 +52,11 @@ export default function Modal() {
         "month": month,
         "day": day
       };
+
       console.log(data)
+
       // Use query parameters for GET
-      const response = await axios.post("expenses/add", data, {
+      const response = await axios.post("expenses/editExpense", data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -83,8 +85,8 @@ export default function Modal() {
   
   return (
     <>
-      <button onClick={toggleModal} className="btn-modal">
-        Add
+      <button onClick={toggleModal} className="btn-modal2">
+        Edit
       </button>
 
       {modal && (
@@ -147,8 +149,8 @@ export default function Modal() {
                 />
               </div>
               <p></p>
-              <button className="submit-btn" onClick={addExpense}>
-                Add Expense
+              <button className="submit-btn" onClick={editExpense}>
+                Edit Expense
               </button>
 
             <button className="close-modal" onClick={toggleModal}>
