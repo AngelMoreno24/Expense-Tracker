@@ -63,6 +63,7 @@ export default function Modal() {
       });
 
       setError("");
+      window.location.href = 'Home';
     } catch (err) {
       if (err.response && err.response.status === 401) {
         setError("Invalid email or password");

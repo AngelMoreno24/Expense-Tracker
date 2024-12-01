@@ -64,6 +64,7 @@ export default function EditExpense({ item }) {
 
       });
 
+      window.location.href = 'Home';
       setError("");
     } catch (err) {
       if (err.response && err.response.status === 401) {

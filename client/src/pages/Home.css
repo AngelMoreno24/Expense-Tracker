@@ -97,6 +97,7 @@ label{
   margin-top: auto;
   margin-bottom: auto;
   button{
+      font-size: 12px;
     margin-left: 5px;
     margin-right: 5px;
   }
