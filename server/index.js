@@ -23,7 +23,7 @@ app.use(cors());
 app.use('/accounts', accountRoute);
 app.use('/expenses', expensesRoute);
 
-let port = process.env.PORT || PORT;
+let port = process.env.PORT || 5000;
 
 mongoose
     .connect(process.env.MONGODB_URL)
