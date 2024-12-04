@@ -1,6 +1,5 @@
 import express from "express";
 import cors from 'cors';
-import { PORT, mongoDBURL } from "./config.js";
 import mongoose from 'mongoose'
 import accountRoute from './routes/account.js';
 import expensesRoute from './routes/expense.js';
@@ -23,7 +22,7 @@ app.use(cors());
 app.use('/accounts', accountRoute);
 app.use('/expenses', expensesRoute);
 
-let port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
 mongoose
     .connect(process.env.MONGODB_URL)
