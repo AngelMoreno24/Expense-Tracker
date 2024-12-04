@@ -477,11 +477,10 @@ const Home = () => {
                 <p>{ item.year + "-"+ item.month +"-"+item.day}</p>
                 <div className='card-div'>
                   <div className='card-div'>
-                    
-                  <EditExpense  item={item}></EditExpense>
+                    <EditExpense  item={item}></EditExpense>
                   </div>
                   <div className='card-div'>
-                  <button onClick={() =>{deleteItem(item._id)}}>Delete</button>
+                    <button onClick={() =>{deleteItem(item._id)}}>Delete</button>
                   </div>
                 </div>
               </div>

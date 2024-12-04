@@ -23,12 +23,14 @@ app.use(cors());
 app.use('/accounts', accountRoute);
 app.use('/expenses', expensesRoute);
 
+let port = process.env.PORT || PORT;
+
 mongoose
-    .connect(mongoDBURL)
+    .connect(process.env.MONGODB_URL)
     .then(() => {
         console.log('App connected to database');
         app.listen(PORT, () => {
-            console.log(`App is listening to port: ${PORT}`);
+            console.log(`App is listening to port: ${port}`);
         });
     })
     .catch((error) => {

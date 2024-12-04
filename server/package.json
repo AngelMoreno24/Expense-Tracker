@@ -4,7 +4,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage",
     "start": "node index",
     "dev": "nodemon index"
   },
@@ -13,14 +13,20 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@babel/core": "^7.26.0",
+    "babel-jest": "^29.7.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.8.1"
+    "mongoose": "^8.8.1",
+    "ts-jest": "^29.2.5"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "@babel/preset-env": "^7.26.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.7",
+    "supertest": "^7.0.0"
   }
 }
